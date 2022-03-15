@@ -29,8 +29,9 @@
 // ↓ uncomment bellow lines and add your response!
 
 export default function ({ messages }: { messages: Message[] }): DayMessages[] {
-  let result: any = [];
+  let result: DayMessages[] = [];
   let dayArray: string[] = [];
+  
   // Création de l'objet qui contiendra les jour
   messages.forEach((message) => {
     const utc0 = new Date(message.sentAt);
@@ -40,6 +41,7 @@ export default function ({ messages }: { messages: Message[] }): DayMessages[] {
       dayArray.push(utc0.toISOString());
       result.push({
         day: utc0.toISOString(),
+        messages: [],
       });
     }
   });
@@ -49,10 +51,6 @@ export default function ({ messages }: { messages: Message[] }): DayMessages[] {
     messages.forEach((message) => {
       const utc0 = new Date(message.sentAt);
       utc0.setUTCHours(0, 0, 0, 0);
-
-      if (!day.hasOwnProperty("messages")) {
-        day.messages = [];
-      }
 
       if (day.day === utc0.toISOString()) {
         day.messages.push(message);
